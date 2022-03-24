@@ -1,0 +1,18 @@
+<div *ngIf="question$ | async as question">
+  <div class="container">
+    <nav class="navbar navbar-light my-2" style="background-color: #e3f2fd">
+      <a class="navbar-brand" href="#">
+        <img
+          src="../../../../assets/images/privacy.jpeg"
+          width="60"
+          height="50"
+          class="d-inline-block mx-2"
+          alt=""
+        />
+        {{ question?.questionnaire?.name }}
+      </a>
+    </nav>
+    <br />
+    <h6>{{ question?.questionnaire?.description }}</h6>
+  </div>
+</div>
