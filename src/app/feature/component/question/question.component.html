@@ -1,18 +1,53 @@
-<div *ngIf="question$ | async as question">
-  <div class="container">
-    <nav class="navbar navbar-light my-2" style="background-color: #e3f2fd">
-      <a class="navbar-brand" href="#">
-        <img
-          src="../../../../assets/images/privacy.jpeg"
-          width="60"
-          height="50"
-          class="d-inline-block mx-2"
-          alt=""
-        />
-        {{ question?.questionnaire?.name }}
-      </a>
-    </nav>
-    <br />
-    <h6>{{ question?.questionnaire?.description }}</h6>
-  </div>
+<div class="container">
+  <ng-container
+    [ngTemplateOutlet]="
+      question$ &&
+      (question$ | async)?.length !== 0 &&
+      (question$ | async)?.questionnaire !== undefined
+        ? questionTemplate
+        : noDataTemplate
+    "
+  >
+  </ng-container>
+
+  <ng-template #questionTemplate>
+    <div class="container" *ngIf="question$ | async as question">
+      <nav class="navbar navbar-light my-3" style="background-color: #e3f2fd">
+        <a class="navbar-brand" href="#">
+          <img
+            src="../../../../assets/images/privacy.jpeg"
+            width="60"
+            height="50"
+            class="d-inline-block mx-2"
+            alt=""
+          />
+          {{ question?.questionnaire?.name }}
+        </a>
+      </nav>
+      <div class="row">
+        <div class="col-md-6">
+          {{ question?.questionnaire?.description }}
+        </div>
+        <div
+          *ngFor="
+            let questions of question?.questionnaire?.questions;
+            let i = index
+          "
+        >
+          <app-multiple-choice
+            [question]="questions"
+            [count]="i + 1"
+          ></app-multiple-choice>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #noDataTemplate>
+    <div
+      class="d-flex p-2 justify-content-center bd-highlight bg-info mx-3 my-3"
+    >
+      Questionnaire data is not available
+    </div>
+  </ng-template>
 </div>

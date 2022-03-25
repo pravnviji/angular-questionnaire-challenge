@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuestionComponent } from './component/question/question.component';
 import { QuestionService } from './services/question.service';
 import { HomeComponent } from './component/home/home.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [QuestionComponent, HomeComponent],
@@ -15,6 +16,7 @@ import { HomeComponent } from './component/home/home.component';
     FeatureRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
   providers: [QuestionService],
 })

@@ -1,0 +1,41 @@
+<div
+  class="form-group input-group row my-4"
+  *ngIf="question.question_type == 'multiple-choice'"
+>
+  <!--<div class="input-group-prepend">
+    <label class="input-group-text" [for]="question?.identifier">
+      {{ question?.headline }}</label
+    >
+  </div>
+  <select multiple class="form-control" [id]="question?.identifier">
+    <option selected>Choose...</option>
+
+    <ng-container *ngFor="let choice of question.choices" ;>
+      <option [value]="choice.value">
+        {{ choice.value }}
+      </option>
+    </ng-container></select
+  ><br />-->
+
+  <div>
+    <h4>{{ count }}. {{ question?.headline }}</h4>
+  </div>
+  <br />
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-select>
+        <mat-option
+          *ngFor="let choice of question.choices"
+          [value]="choice.value"
+        >
+          {{ choice.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+<div *ngIf="question.question_type == 'text'">
+  <h4>{{ count }} {{ question?.headline }}</h4>
+  <textarea class="typeform_input" autocomplete="off"></textarea>
+</div>

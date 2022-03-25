@@ -16,11 +16,11 @@ import { FeatureModule } from './feature/feature.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    CoreModule,
     SharedModule,
+    FeatureModule,
+    CoreModule,
     HttpClientInMemoryWebApiModule.forRoot(DataService),
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -94,6 +94,28 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
+              identifier: 'list_12110966',
+              headline:
+                'Wie wichtig ist Dir die Absicherung gegen Mietsachschäden?',
+              description: null,
+              required: false,
+              multiple: 'false',
+              choices: [
+                {
+                  label: 'Wichtig',
+                  value: 'Wichtig',
+                  selected: false,
+                },
+                {
+                  label: 'Unwichtig',
+                  value: 'Unwichtig',
+                  selected: false,
+                },
+              ],
+              jumps: [],
+            },
+            {
+              question_type: 'multiple-choice',
               identifier: 'list_12110967',
               headline: 'Bist Du Eigentümer einer oder mehrerer Immobilien?',
               description: null,
