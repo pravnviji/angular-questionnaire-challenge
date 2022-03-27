@@ -1,0 +1,22 @@
+:host .app-multiple-choice {
+  &__form-field {
+    width: 75vw;
+  }
+}
+
+:host {
+  ::ng-deep {
+    .mat-select-arrow-wrapper {
+      margin-top: 2vh;
+    }
+    .mat-form-field-appearance-fill {
+      background-color: #e3f2fd;
+    }
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+      background-color: transparent;
+    }
+    .mat-form-field-underline {
+      display: none;
+    }
+  }
+}

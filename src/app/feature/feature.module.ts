@@ -9,6 +9,8 @@ import { QuestionService } from './services/question.service';
 import { HomeComponent } from './component/home/home.component';
 import { SharedModule } from '../shared/shared.module';
 
+import { MatButtonModule } from '@angular/material/button';
+
 @NgModule({
   declarations: [QuestionComponent, HomeComponent],
   imports: [
@@ -16,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
     FeatureRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatButtonModule,
     SharedModule,
   ],
   providers: [QuestionService],

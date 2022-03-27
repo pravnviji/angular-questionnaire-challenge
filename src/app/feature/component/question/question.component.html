@@ -12,7 +12,7 @@
 
   <ng-template #questionTemplate>
     <div class="container" *ngIf="question$ | async as question">
-      <nav class="navbar navbar-light my-3" style="background-color: #e3f2fd">
+      <nav class="navbar navbar-light my-3 app-question__hdr">
         <a class="navbar-brand" href="#">
           <img
             src="../../../../assets/images/privacy.jpeg"
@@ -25,20 +25,18 @@
         </a>
       </nav>
       <div class="row">
-        <div class="col-md-6">
-          {{ question?.questionnaire?.description }}
-        </div>
-        <div
-          *ngFor="
-            let questions of question?.questionnaire?.questions;
-            let i = index
-          "
+        <h3>{{ question?.questionnaire?.description }}</h3>
+        <app-multiple-choice
+          [question]="question?.questionnaire?.questions"
+        ></app-multiple-choice>
+        <button
+          class="my-3"
+          mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
         >
-          <app-multiple-choice
-            [question]="questions"
-            [count]="i + 1"
-          ></app-multiple-choice>
-        </div>
+          Submit
+        </button>
       </div>
     </div>
   </ng-template>

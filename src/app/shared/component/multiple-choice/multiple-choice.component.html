@@ -1,41 +1,44 @@
-<div
-  class="form-group input-group row my-4"
-  *ngIf="question.question_type == 'multiple-choice'"
->
-  <!--<div class="input-group-prepend">
-    <label class="input-group-text" [for]="question?.identifier">
-      {{ question?.headline }}</label
+<form [formGroup]="multiplechoiceGrp" novalidate>
+  <ng-container class="form-group row" *ngFor="let data of QuestionData">
+    <div
+      class="form-group input-group row my-4"
+      *ngIf="data.question_type == 'multiple-choice'"
     >
-  </div>
-  <select multiple class="form-control" [id]="question?.identifier">
-    <option selected>Choose...</option>
+      <div>
+        <h4>{{ data?.count }}) {{ data?.headline }} -</h4>
+      </div>
 
-    <ng-container *ngFor="let choice of question.choices" ;>
-      <option [value]="choice.value">
-        {{ choice.value }}
-      </option>
-    </ng-container></select
-  ><br />-->
-
-  <div>
-    <h4>{{ count }}. {{ question?.headline }}</h4>
-  </div>
-  <br />
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-select>
-        <mat-option
-          *ngFor="let choice of question.choices"
-          [value]="choice.value"
+      <div>
+        <mat-form-field
+          appearance="fill"
+          class="app-multiple-choice__form-field"
         >
-          {{ choice.value }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-</div>
+          <mat-select
+            matNativeControl
+            class="form-control"
+            (selectionChange)="
+              onMultipleChoiceChange($event.value, data?.identifier)
+            "
+          >
+            <mat-option
+              *ngFor="let choice of data.choices"
+              [value]="choice.value"
+            >
+              {{ choice.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
 
-<div *ngIf="question.question_type == 'text'">
-  <h4>{{ count }} {{ question?.headline }}</h4>
-  <textarea class="typeform_input" autocomplete="off"></textarea>
-</div>
+    <div class="form-group my-4" *ngIf="data.question_type == 'text'">
+      <h4>{{ data?.count }}) {{ data?.headline }}</h4>
+      <input
+        type="text"
+        (keypress)="onMultipleChoiceChange($event, data?.identifier)"
+        class="form-control app-multiple-choice__form-field"
+        autocomplete="off"
+      />
+    </div>
+  </ng-container>
+</form>

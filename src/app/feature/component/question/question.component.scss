@@ -1,0 +1,12 @@
+:host .app-question {
+  &__hdr {
+    width: 100%;
+    background-color: #e3f2fd;
+  }
+}
+
+:host .navbar-brand {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

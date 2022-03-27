@@ -73,7 +73,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12111777',
+              identifier: 'list_13111610',
               headline: 'Möchtest Du eine Forderungsausfalldeckung absichern?',
               description: null,
               required: false,
@@ -94,7 +94,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12110966',
+              identifier: 'list_21110966',
               headline:
                 'Wie wichtig ist Dir die Absicherung gegen Mietsachschäden?',
               description: null,
@@ -116,7 +116,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12110967',
+              identifier: 'list_1211096723',
               headline: 'Bist Du Eigentümer einer oder mehrerer Immobilien?',
               description: null,
               required: false,
@@ -160,7 +160,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12110968',
+              identifier: 'list_121109778',
               headline: 'Gehört Dir eine selbstbewohnte Immobilie?',
               description: null,
               required: false,
@@ -191,7 +191,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_13907264',
+              identifier: 'list_139073264',
               headline: 'Hast Du eine oder mehrere vermietete Immobilien?',
               description: null,
               required: false,
@@ -222,7 +222,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12111854',
+              identifier: 'list_142111854',
               headline:
                 'Möchtest Du in nächster Zeit etwas bauen oder umbauen?',
               description: null,
@@ -244,7 +244,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12110972',
+              identifier: 'list_121150972',
               headline:
                 'Wie wichtig ist Dir die Absicherung gegen beruflichen Schlüsselverlust?',
               description: null,
@@ -266,7 +266,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_13913438',
+              identifier: 'list_139213438',
               headline: 'Möchtest Du den Verlust privater Schlüssel absichern?',
               description: null,
               required: false,
@@ -287,7 +287,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12110969',
+              identifier: 'list_121109469',
               headline: 'Möchtest Du im Ausland abgesichert sein?',
               description: null,
               required: false,
@@ -313,7 +313,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12110970',
+              identifier: 'list_121103970',
               headline: 'Hast Du ein Segelboot?',
               description: null,
               required: false,
@@ -349,7 +349,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12110971',
+              identifier: 'list_121120971',
               headline: 'Hast Du ein Motorboot?',
               description: null,
               required: false,
@@ -385,7 +385,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12110965',
+              identifier: 'list_121103965',
               headline:
                 'Möchtest Du bei einem Schadensfall einen Teil selbst bezahlen?',
               description: null,
@@ -407,7 +407,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12111717',
+              identifier: 'list_121114717',
               headline:
                 'Hast Du aktuell schon eine Privathaftpflichtversicherung?',
               description: null,
@@ -452,7 +452,7 @@ export class DataService implements InMemoryDbService {
             },
             {
               question_type: 'multiple-choice',
-              identifier: 'list_12111755',
+              identifier: 'list_121117355',
               headline:
                 'Wie viele Haftpflichtschäden hattest Du in den letzten 5 Jahren?',
               description: null,
