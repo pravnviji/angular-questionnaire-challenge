@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { elementAt, Observable } from 'rxjs';
 import { MultipleChoiceComponent } from 'src/app/shared/component/multiple-choice/multiple-choice.component';
 import { QuestionService } from '../../services/question.service';
 
@@ -17,6 +17,13 @@ export class QuestionComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
+    localStorage.getItem('questionData')
+      ? localStorage.removeItem('questionData')
+      : '';
     debugger;
+    localStorage.setItem(
+      'questionData',
+      JSON.stringify(this.mutipleChoice.QuestionData)
+    );
   }
 }
