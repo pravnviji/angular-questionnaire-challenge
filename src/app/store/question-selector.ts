@@ -6,8 +6,6 @@ const getQuestionState = createFeatureSelector<TQuestionnaire>('questionStore');
 export const getQuestion = createSelector(
   getQuestionState,
   (state: TQuestionnaire) => {
-    console.log('getQuestion');
-    console.log(state);
     return state.questions;
   }
 );

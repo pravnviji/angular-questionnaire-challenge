@@ -9,7 +9,7 @@ export type TQuestionnaire = {
 
 export type TQuestions = {
   question_type: string;
-  value?: string;
+  value?: any;
   identifier: string;
   headline: string;
   multiline?: boolean;

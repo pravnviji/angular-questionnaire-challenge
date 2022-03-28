@@ -1,15 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  Observable,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, Subject } from 'rxjs';
 import { TQuestions } from 'src/app/feature/model/question';
-import { loadQuestion, updatedQuestion } from 'src/app/store/actions';
+import { updatedQuestion } from 'src/app/store/actions';
+import { getQuestion } from 'src/app/store/question-selector';
 import { TAppState } from 'src/app/store/state';
 @Component({
   selector: 'app-multiple-choice',
@@ -23,31 +18,55 @@ export class MultipleChoiceComponent implements OnInit {
   multiplechoiceGrp: FormGroup = new FormGroup({});
 
   textFieldSearch: Subject<string> = new Subject<string>();
-  private textFieldSearchSubscription!: Subscription;
+  localStorage: Observable<any> = this.store.select(getQuestion);
+  localStorageData: TQuestions[] = [];
 
   searchChangeObserver!: any;
 
   constructor(private store: Store<TAppState>) {}
 
   ngOnInit(): void {
+    this.checkLocalStorage();
+    this.formatQuestionData();
+  }
+
+  checkLocalStorage = () => {
+    this.localStorage.subscribe((data: TQuestions[]) => {
+      this.localStorageData = data;
+    });
+  };
+
+  formatQuestionData = () => {
     let count: number = 0;
-    this.loadFromLocalData();
     this.question.forEach((question: TQuestions) => {
       this.QuestionData.push({
         identifier: question?.identifier,
-        value: question?.value,
+        value: this.localStorageData
+          ? this.checkStorageData(question)
+          : question?.value,
         count: count + 1,
         headline: question?.headline,
         question_type: question?.question_type,
         choices: question?.choices,
       });
-      this.multiplechoiceGrp.addControl(
-        question?.identifier,
-        new FormControl('')
-      );
+      this.updateFormControl(question?.identifier);
       count++;
     });
-  }
+  };
+
+  updateFormControl = (id: TQuestions['identifier']) => {
+    this.multiplechoiceGrp.addControl(id, new FormControl(''));
+  };
+
+  checkStorageData = (question: TQuestions) => {
+    let newValue = '';
+    this.localStorageData.filter(({ identifier, value }) => {
+      if (question.identifier === identifier) {
+        newValue = value;
+      }
+    });
+    return newValue;
+  };
 
   textFieldSubscribe = (
     fieldValue: any,
@@ -65,16 +84,6 @@ export class MultipleChoiceComponent implements OnInit {
     }
     this.searchChangeObserver.next(fieldValue);
   };
-
-  loadFromLocalData() {
-    /*this.question =
-      localStorage.getItem('questionData') !== null
-        ? (JSON.parse(
-            localStorage.getItem('questionData') as string
-          ) as TQuestions[])
-        : this.question;*/
-    // this.store.dispatch(loadQuestion());
-  }
 
   onMultipleChoiceChange(
     fieldValue: any,

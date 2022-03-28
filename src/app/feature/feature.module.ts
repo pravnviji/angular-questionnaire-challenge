@@ -10,6 +10,7 @@ import { HomeComponent } from './component/home/home.component';
 import { SharedModule } from '../shared/shared.module';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [QuestionComponent, HomeComponent],
@@ -18,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
     FeatureRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatDialogModule,
     MatButtonModule,
     SharedModule,
   ],

@@ -2,8 +2,16 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { TQuestionnaire, TQuestions } from '../feature/model/question';
 import { getAllQuestion, loadQuestion, updatedQuestion } from './actions';
 
+function getInitialQuestion(): TQuestions[] {
+  return localStorage.getItem('questionData') !== null
+    ? (JSON.parse(
+        localStorage.getItem('questionData') as string
+      ) as TQuestions[])
+    : [];
+}
+
 const initialState: TQuestionnaire = {
-  questions: [],
+  questions: getInitialQuestion(),
   id: 0,
   identifier: '',
   name: '',
@@ -13,19 +21,6 @@ const initialState: TQuestionnaire = {
 
 const _questionReducer = createReducer(
   initialState,
-  on(loadQuestion, (state, actions) => {
-    const loadQuestion =
-      localStorage.getItem('questionData') !== null
-        ? (JSON.parse(
-            localStorage.getItem('questionData') as string
-          ) as TQuestions[])
-        : state.questions;
-    return {
-      ...state,
-      questions: loadQuestion,
-      actions,
-    };
-  }),
   on(getAllQuestion, (state, actions) => {
     return {
       ...state,
