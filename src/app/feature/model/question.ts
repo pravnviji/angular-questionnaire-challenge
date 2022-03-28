@@ -9,12 +9,14 @@ export type TQuestionnaire = {
 
 export type TQuestions = {
   question_type: string;
+  value?: string;
   identifier: string;
   headline: string;
-  multiline: boolean;
-  required: boolean;
+  multiline?: boolean;
+  required?: boolean;
   choices: TChoices[];
-  jump: TJump[];
+  jump?: TJump[];
+  count?: number;
 };
 
 export type TChoices = {

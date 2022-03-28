@@ -1,63 +1,98 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import {
-  AfterViewChecked,
-  Component,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormArray,
-  Validators,
-  FormControl,
-} from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
+  debounceTime,
+  distinctUntilChanged,
+  Observable,
+  Subject,
+  Subscription,
+} from 'rxjs';
+import { TQuestions } from 'src/app/feature/model/question';
+import { loadQuestion, updatedQuestion } from 'src/app/store/actions';
+import { TAppState } from 'src/app/store/state';
 @Component({
   selector: 'app-multiple-choice',
   templateUrl: './multiple-choice.component.html',
   styleUrls: ['./multiple-choice.component.scss'],
 })
 export class MultipleChoiceComponent implements OnInit {
-  @Input() question: any;
+  @Input() question!: TQuestions[];
 
-  QuestionData: any = [];
+  QuestionData: TQuestions[] = [];
   multiplechoiceGrp: FormGroup = new FormGroup({});
-  modelFields: any = [];
+
+  textFieldSearch: Subject<string> = new Subject<string>();
+  private textFieldSearchSubscription!: Subscription;
+
+  searchChangeObserver!: any;
+
+  constructor(private store: Store<TAppState>) {}
 
   ngOnInit(): void {
     let count: number = 0;
-    this.question.forEach(
-      (question: {
-        identifier: string;
-        headline: string;
-        question_type: string;
-        choices: [];
-      }) => {
-        this.QuestionData.push({
-          identifier: question?.identifier,
-          value: '',
-          count: count + 1,
-          headline: question?.headline,
-          question_type: question?.question_type,
-          choices: question?.choices,
-        });
-        this.multiplechoiceGrp.addControl(
-          question?.identifier,
-          new FormControl('')
-        );
-        count++;
-      }
-    );
+    this.loadFromLocalData();
+    this.question.forEach((question: TQuestions) => {
+      this.QuestionData.push({
+        identifier: question?.identifier,
+        value: question?.value,
+        count: count + 1,
+        headline: question?.headline,
+        question_type: question?.question_type,
+        choices: question?.choices,
+      });
+      this.multiplechoiceGrp.addControl(
+        question?.identifier,
+        new FormControl('')
+      );
+      count++;
+    });
   }
 
-  onMultipleChoiceChange(value: any, id: string) {
-    let fieldData = null;
-    if (typeof value === 'object') {
-      fieldData = value.target?.value;
-    } else {
-      fieldData = value;
+  textFieldSubscribe = (
+    fieldValue: any,
+    id: TQuestions['identifier'] | undefined
+  ) => {
+    if (!this.searchChangeObserver) {
+      new Observable((observer) => {
+        this.searchChangeObserver = observer;
+      })
+        .pipe(debounceTime(1000))
+        .pipe(distinctUntilChanged())
+        .subscribe((data: any) => {
+          this.onMultipleChoiceChange(data?.target.value, id);
+        });
     }
-    this.multiplechoiceGrp.controls[id].setValue({ value: fieldData });
+    this.searchChangeObserver.next(fieldValue);
+  };
+
+  loadFromLocalData() {
+    /*this.question =
+      localStorage.getItem('questionData') !== null
+        ? (JSON.parse(
+            localStorage.getItem('questionData') as string
+          ) as TQuestions[])
+        : this.question;*/
+    // this.store.dispatch(loadQuestion());
+  }
+
+  onMultipleChoiceChange(
+    fieldValue: any,
+    id: TQuestions['identifier'] | undefined
+  ) {
+    let fieldData = fieldValue?.target ? fieldValue.target?.value : fieldValue;
+    if (id) {
+      this.multiplechoiceGrp.controls[id].setValue({ value: fieldData });
+      this.QuestionData.forEach((element: any) => {
+        if (id === element.identifier) {
+          this.store.dispatch(
+            updatedQuestion({
+              identifier: id,
+              questions: { ...element, value: fieldData },
+            })
+          );
+        }
+      });
+    }
   }
 }

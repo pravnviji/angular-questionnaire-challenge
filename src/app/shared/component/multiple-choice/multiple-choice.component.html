@@ -19,6 +19,7 @@
             (selectionChange)="
               onMultipleChoiceChange($event.value, data?.identifier)
             "
+            [value]="data.value"
           >
             <mat-option
               *ngFor="let choice of data.choices"
@@ -35,9 +36,10 @@
       <h4>{{ data?.count }}) {{ data?.headline }}</h4>
       <input
         type="text"
-        (keypress)="onMultipleChoiceChange($event, data?.identifier)"
+        (keypress)="textFieldSubscribe($event, data?.identifier)"
         class="form-control app-multiple-choice__form-field"
         autocomplete="off"
+        [value]="data?.value ? data?.value : ''"
       />
     </div>
   </ng-container>

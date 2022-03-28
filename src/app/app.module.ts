@@ -9,6 +9,10 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { DataService } from './shared/data.service';
 import { FeatureModule } from './feature/feature.module';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { appReducer } from './store/state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +24,11 @@ import { FeatureModule } from './feature/feature.module';
     FeatureModule,
     CoreModule,
     HttpClientInMemoryWebApiModule.forRoot(DataService),
+    StoreModule.forRoot(appReducer),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   bootstrap: [AppComponent],
 })

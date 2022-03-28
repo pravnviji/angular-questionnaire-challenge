@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { elementAt, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { MultipleChoiceComponent } from 'src/app/shared/component/multiple-choice/multiple-choice.component';
+import { getAllQuestion } from 'src/app/store/actions';
+import { getQuestion } from 'src/app/store/question-selector';
+import { TAppState } from 'src/app/store/state';
+import { TQuestions } from '../../model/question';
 import { QuestionService } from '../../services/question.service';
 
 @Component({
@@ -10,9 +15,13 @@ import { QuestionService } from '../../services/question.service';
 })
 export class QuestionComponent implements OnInit {
   question$: Observable<any> = this.questionService.getQuestion();
+  localStorage: Observable<any> = this.store.select(getQuestion);
   @ViewChild(MultipleChoiceComponent) mutipleChoice!: MultipleChoiceComponent;
 
-  constructor(private questionService: QuestionService) {}
+  constructor(
+    private store: Store<TAppState>,
+    private questionService: QuestionService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -20,10 +29,9 @@ export class QuestionComponent implements OnInit {
     localStorage.getItem('questionData')
       ? localStorage.removeItem('questionData')
       : '';
-    debugger;
-    localStorage.setItem(
-      'questionData',
-      JSON.stringify(this.mutipleChoice.QuestionData)
-    );
+    this.store.dispatch(getAllQuestion());
+    this.localStorage.subscribe((data: TQuestions[]) => {
+      localStorage.setItem('questionData', JSON.stringify(data));
+    });
   }
 }
