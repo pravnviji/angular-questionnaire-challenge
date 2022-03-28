@@ -1,13 +1,12 @@
-/*import {
+import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Logger } from 'src/app/core/logger.service';
-import { TtariffDetails } from '../model/question';
-
-import { TariffService } from './question.service';
+import { TQuestionnaire } from '../model/question';
+import { QuestionService } from './question.service';
 
 class MockLoggerService {
   log() {
@@ -18,25 +17,32 @@ class MockLoggerService {
   }
 }
 
-describe('TariffService', () => {
-  let serviceTest: TariffService;
+describe('QuestionService', () => {
+  let serviceTest: QuestionService;
   let httpMock: HttpTestingController;
   let injector: TestBed;
-  const dummyTarifDetails: TtariffDetails[] = [
-    {
-      id: '1',
-      name: 'Montana bonus 12',
-      download: '12',
-      upload: '6',
-      otherbenefits: [
-        'C02 tax 2022 included',
-        'incl. € 89.96 new customer bonus',
-        '12 months limited price guarantee',
-        'Optional 24 months price guarantee',
-      ],
-      amount: '165.30',
-    },
-  ];
+  const dummyTarifDetails: TQuestionnaire = {
+    id: 40,
+    identifier: 'ewBzTS',
+    name: 'Privathaftpflichtversicherung',
+    questions: [
+      {
+        question_type: 'multiple-choice',
+        identifier: 'list_12110962',
+        headline: 'Wen möchtest Du versichern?',
+        required: false,
+        choices: [
+          {
+            label: 'Meine Familie mit Kindern',
+            value: 'Meine Familie mit Kindern',
+            selected: false,
+          },
+        ],
+      },
+    ],
+    description: 'test',
+    category_name_hyphenated: 'test',
+  };
 
   const environmentUrl = 'http://localhost:3000/';
 
@@ -50,7 +56,7 @@ describe('TariffService', () => {
     });
     injector = getTestBed();
     httpMock = TestBed.get(HttpTestingController);
-    serviceTest = injector.get(TariffService);
+    serviceTest = injector.get(QuestionService);
   });
 
   afterEach(() => {
@@ -61,37 +67,22 @@ describe('TariffService', () => {
     expect(serviceTest).toBeTruthy();
   });
 
-  it('getTariffDetails() should check valid URL and mapTariffDetails should called', () => {
-    spyOn(serviceTest, 'mapTariffDetails').and.callThrough();
+  it('getQuestion() should check valid URL and mapQuestionResult should called', () => {
+    spyOn(serviceTest, 'mapQuestionResult').and.callThrough();
     serviceTest
-      .getTariffDetails()
+      .getQuestion()
       .subscribe((res) =>
-        expect(serviceTest.mapTariffDetails).toHaveBeenCalledWith(res)
+        expect(serviceTest.mapQuestionResult).toHaveBeenCalledWith(res)
       );
     const reqMock = httpMock.expectOne(
       (req) =>
-        req.method === 'GET' && req.url === environmentUrl + 'api/tariff/'
+        req.method === 'GET' && req.url === environmentUrl + 'api/questiondata/'
     );
     expect(reqMock.request.method).toBe('GET');
   });
 
-  it('mapTariffDetails() should return valid tariffData', () => {
-    const mockTarifDetails = [
-      {
-        id: '1',
-        name: 'Montana bonus 12',
-        download: '12',
-        upload: '6',
-        otherbenefits: [
-          'C02 tax 2022 included',
-          'incl. € 89.96 new customer bonus',
-          '12 months limited price guarantee',
-          'Optional 24 months price guarantee',
-        ],
-        amount: '165.30',
-      },
-    ];
-    const result = serviceTest.mapTariffDetails(mockTarifDetails);
+  it('mapQuestionResult() should return valid TQuestionnaire Resultset', () => {
+    const result = serviceTest.mapQuestionResult(dummyTarifDetails);
     expect(result).toEqual(dummyTarifDetails);
   });
 });

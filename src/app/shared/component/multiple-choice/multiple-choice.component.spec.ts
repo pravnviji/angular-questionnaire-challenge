@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MultipleChoiceComponent } from './multiple-choice.component';
 
@@ -23,3 +23,4 @@ describe('MultipleChoiceComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+*/
