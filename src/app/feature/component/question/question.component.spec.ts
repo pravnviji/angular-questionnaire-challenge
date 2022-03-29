@@ -160,8 +160,6 @@ describe('QuestionComponent', () => {
 
     component.localStorageOrchestrate();
     store.select(getQuestion).subscribe((data) => {
-      console.log('getQuestion');
-      console.log(data);
       expect(data).not.toBeNull;
     });
   });

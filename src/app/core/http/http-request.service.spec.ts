@@ -84,7 +84,7 @@ describe('http-request-service', () => {
   it('should call error handle the get method', () => {
     const mockData: string = 'Test incident data';
     const errorMock = { status: 404, statusText: 'Not Found' };
-    console.log('Get error handling');
+
     const mockErrorResponse: HttpErrorResponse = new HttpErrorResponse({
       error: {},
       status: 500,
@@ -93,12 +93,9 @@ describe('http-request-service', () => {
     });
     mockHttpRequestService.get('mocktest').subscribe(
       (resp) => {
-        console.log('handleError on create: expected error response:');
-        console.log(JSON.stringify(resp));
         new Error('handleError: expected error...');
       },
       (error) => {
-        console.log('Inside the GET');
         expect(mockHttpRequestService.handleError).toHaveBeenCalledWith(
           error,
           'GET',

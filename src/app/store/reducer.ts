@@ -39,7 +39,6 @@ const _questionReducer = createReducer(
 );
 
 export const postQuestion = (state: any, actions: any) => {
-  console.log('updatedQuestion');
   let updateQuestion = null;
   if (state.questions.length === 0) {
     updateQuestion = actions.questions;

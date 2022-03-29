@@ -13,15 +13,12 @@ export class QuestionService {
   private questionUrl = 'api/questiondata/';
 
   getQuestion(): Observable<TQuestionnaire> {
-    this.logger.debug('getQuestion');
     return this.http
       .get(this.questionUrl)
       .pipe(map((result) => this.mapQuestionResult(result as TQuestionnaire)));
   }
 
   mapQuestionResult(result: TQuestionnaire): TQuestionnaire {
-    this.logger.debug('mapQuestionResult');
-    this.logger.debug('result', result);
     return result;
   }
 }
