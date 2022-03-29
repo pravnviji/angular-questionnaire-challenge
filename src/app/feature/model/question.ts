@@ -12,10 +12,11 @@ export type TQuestions = {
   value?: any;
   identifier: string;
   headline: string;
-  multiline?: boolean;
+  multiline?: string;
   required?: boolean;
-  choices: TChoices[];
-  jump?: TJump[];
+  description?: string | null;
+  choices?: TChoices[];
+  jumps?: TJump[];
   count?: number;
 };
 

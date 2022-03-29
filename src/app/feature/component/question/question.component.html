@@ -1,55 +1,44 @@
 <div class="container">
-  <ng-container
-    [ngTemplateOutlet]="
+
+  <!-- Condition check for Templates-->
+  <ng-container [ngTemplateOutlet]="
       question$ &&
       (question$ | async)?.length !== 0 &&
       (question$ | async)?.questionnaire !== undefined
         ? questionTemplate
         : noDataTemplate
-    "
-  >
+    ">
   </ng-container>
 
+  <!-- Question Template-->
   <ng-template #questionTemplate>
     <div class="container" *ngIf="question$ | async as question">
       <nav class="navbar navbar-light my-3 app-question__hdr">
         <a class="navbar-brand" href="#">
-          <img
-            src="../../../../assets/images/privacy.jpeg"
-            width="60"
-            height="50"
-            class="d-inline-block mx-2"
-            alt=""
-          />
+          <img src="./assets/images/privacy.jpeg" width="60" height="50" class="d-inline-block mx-2" alt="" />
           {{ question?.questionnaire?.name }}
         </a>
       </nav>
       <div class="row">
         <h3>{{ question?.questionnaire?.description }}</h3>
-        <app-multiple-choice
-          [question]="question?.questionnaire?.questions"
-        ></app-multiple-choice>
-        <button
-          class="my-3"
-          mat-raised-button
-          color="primary"
-          (click)="onSubmit()"
-        >
+        <app-multiple-choice [question]="question?.questionnaire?.questions"></app-multiple-choice>
+        <button class="my-3" mat-raised-button color="primary" (click)="onSubmit()">
           Submit
         </button>
       </div>
     </div>
   </ng-template>
 
+
+  <!-- No Data Template-->
   <ng-template #noDataTemplate>
-    <div
-      class="d-flex p-2 justify-content-center bd-highlight bg-info mx-3 my-3"
-    >
+    <div class="d-flex p-2 justify-content-center bd-highlight bg-info mx-3 my-3">
       Questionnaire data is not available
     </div>
   </ng-template>
 </div>
 
+<!-- Form Submit Dialog Template-->
 <ng-template #formSubmitDialog>
   <h2 matDialogTitle>Customer Questionaire</h2>
   <p matDialogContent>
@@ -61,5 +50,5 @@
     <button mat-raised-button mat-button matDialogClose="Home" color="primary">
       Home
     </button>
-  </mat-dialog-actions></ng-template
->
+  </mat-dialog-actions>
+</ng-template>

@@ -1,11 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
-import { debounceTime, distinctUntilChanged, Observable, Subject } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  Observable,
+  Subscription,
+} from 'rxjs';
 import { TQuestions } from 'src/app/feature/model/question';
 import { updatedQuestion } from 'src/app/store/actions';
 import { getQuestion } from 'src/app/store/question-selector';
 import { TAppState } from 'src/app/store/state';
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'app-multiple-choice',
   templateUrl: './multiple-choice.component.html',
@@ -17,26 +24,31 @@ export class MultipleChoiceComponent implements OnInit {
   QuestionData: TQuestions[] = [];
   multiplechoiceGrp: FormGroup = new FormGroup({});
 
-  textFieldSearch: Subject<string> = new Subject<string>();
   localStorage: Observable<any> = this.store.select(getQuestion);
+
+  textFieldSubscription!: Subscription;
+  localStorageSubscription!: Subscription;
+
   localStorageData: TQuestions[] = [];
 
   searchChangeObserver!: any;
 
   constructor(private store: Store<TAppState>) {}
 
-  ngOnInit(): void {
-    this.checkLocalStorage();
-    this.formatQuestionData();
+  ngOnInit() {
+    this.examineLocalStorage();
+    this.tempelateQuestionData();
   }
 
-  checkLocalStorage = () => {
-    this.localStorage.subscribe((data: TQuestions[]) => {
-      this.localStorageData = data;
-    });
+  examineLocalStorage = (): void => {
+    this.localStorageSubscription = this.localStorage.subscribe(
+      (data: TQuestions[]) => {
+        this.localStorageData = data;
+      }
+    );
   };
 
-  formatQuestionData = () => {
+  tempelateQuestionData = (): void => {
     let count: number = 0;
     this.question.forEach((question: TQuestions) => {
       this.QuestionData.push({
@@ -54,11 +66,11 @@ export class MultipleChoiceComponent implements OnInit {
     });
   };
 
-  updateFormControl = (id: TQuestions['identifier']) => {
+  updateFormControl = (id: TQuestions['identifier']): void => {
     this.multiplechoiceGrp.addControl(id, new FormControl(''));
   };
 
-  checkStorageData = (question: TQuestions) => {
+  checkStorageData = (question: TQuestions): TQuestions['value'] => {
     let newValue = '';
     this.localStorageData.filter(({ identifier, value }) => {
       if (question.identifier === identifier) {
@@ -71,9 +83,9 @@ export class MultipleChoiceComponent implements OnInit {
   textFieldSubscribe = (
     fieldValue: any,
     id: TQuestions['identifier'] | undefined
-  ) => {
+  ): void => {
     if (!this.searchChangeObserver) {
-      new Observable((observer) => {
+      this.textFieldSubscription = new Observable((observer) => {
         this.searchChangeObserver = observer;
       })
         .pipe(debounceTime(1000))
@@ -85,10 +97,10 @@ export class MultipleChoiceComponent implements OnInit {
     this.searchChangeObserver.next(fieldValue);
   };
 
-  onMultipleChoiceChange(
+  onMultipleChoiceChange = (
     fieldValue: any,
     id: TQuestions['identifier'] | undefined
-  ) {
+  ): void => {
     let fieldData = fieldValue?.target ? fieldValue.target?.value : fieldValue;
     if (id) {
       this.multiplechoiceGrp.controls[id].setValue({ value: fieldData });
@@ -103,5 +115,5 @@ export class MultipleChoiceComponent implements OnInit {
         }
       });
     }
-  }
+  };
 }

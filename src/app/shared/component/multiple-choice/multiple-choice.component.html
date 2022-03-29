@@ -1,30 +1,17 @@
 <form [formGroup]="multiplechoiceGrp" novalidate>
   <ng-container class="form-group row" *ngFor="let data of QuestionData">
-    <div
-      class="form-group input-group row my-4"
-      *ngIf="data.question_type == 'multiple-choice'"
-    >
+
+    <!-- Select Field Question -->
+    <div class="form-group input-group row my-4" *ngIf="data.question_type === 'multiple-choice'">
       <div>
         <h4>{{ data?.count }}) {{ data?.headline }} -</h4>
       </div>
-
       <div>
-        <mat-form-field
-          appearance="fill"
-          class="app-multiple-choice__form-field"
-        >
-          <mat-select
-            matNativeControl
-            class="form-control"
-            (selectionChange)="
+        <mat-form-field appearance="fill" class="app-multiple-choice__form-field">
+          <mat-select matNativeControl class="form-control" (selectionChange)="
               onMultipleChoiceChange($event.value, data?.identifier)
-            "
-            [value]="data.value"
-          >
-            <mat-option
-              *ngFor="let choice of data.choices"
-              [value]="choice.value"
-            >
+            " [value]="data.value">
+            <mat-option *ngFor="let choice of data.choices" [value]="choice.value">
               {{ choice.value }}
             </mat-option>
           </mat-select>
@@ -32,15 +19,12 @@
       </div>
     </div>
 
-    <div class="form-group my-4" *ngIf="data.question_type == 'text'">
+    <!-- Text Field Question -->
+    <div class="form-group my-4" *ngIf="data.question_type === 'text'">
       <h4>{{ data?.count }}) {{ data?.headline }}</h4>
-      <input
-        type="text"
-        (keypress)="textFieldSubscribe($event, data?.identifier)"
-        class="form-control app-multiple-choice__form-field"
-        autocomplete="off"
-        [value]="data?.value ? data?.value : ''"
-      />
+      <input type="text" (keypress)="textFieldSubscribe($event, data?.identifier)"
+        class="form-control app-multiple-choice__form-field" autocomplete="off"
+        [value]="data?.value ? data?.value : ''" />
     </div>
   </ng-container>
 </form>
